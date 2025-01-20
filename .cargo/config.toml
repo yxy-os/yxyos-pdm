@@ -1,0 +1,21 @@
+[target.aarch64-unknown-linux-gnu]
+linker = "aarch64-linux-gnu-gcc"
+rustflags = ["-C", "target-feature=+crt-static"]
+
+[target.x86_64-unknown-linux-gnu]
+rustflags = ["-C", "target-feature=+crt-static"]
+
+[target.x86_64-pc-windows-gnu]
+linker = "x86_64-w64-mingw32-gcc"
+rustflags = ["-C", "target-feature=+crt-static"]
+
+[build]
+rustflags = ["-C", "link-arg=-s"]
+
+[env]
+OPENSSL_STATIC = "1"
+OPENSSL_NO_VENDOR = "0"
+OPENSSL_DIR = "/usr/aarch64-linux-gnu"
+PKG_CONFIG_SYSROOT_DIR = "/usr/aarch64-linux-gnu"
+PKG_CONFIG_PATH = "/usr/aarch64-linux-gnu/lib/pkgconfig"
+PKG_CONFIG_ALLOW_CROSS = "1" 

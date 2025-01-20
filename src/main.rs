@@ -64,14 +64,12 @@ impl std::fmt::Display for DownloadError {
 
 #[derive(Parser)]
 #[command(
-    name = "pdm",
-    author = "@云溪起源",
-    version = "1.0.0",
+    name = env!("CARGO_PKG_NAME"),
+    version = env!("CARGO_PKG_VERSION"),
+    author = "云溪起源@唐溪",
     about = "多线程并发下载器",
     long_about = None,
     help_template = "{author} v{version} 制作的{about}\n\nUsage: {name} [OPTIONS] <URLS>...\n\nArguments:\n  <URLS>...  下载链接列表\n\nOptions:\n{options}",
-    disable_help_flag = true,
-    disable_version_flag = true,
 )]
 struct Cli {
     /// 下载链接列表
