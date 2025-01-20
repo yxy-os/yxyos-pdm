@@ -223,19 +223,7 @@ impl Downloader {
             pb.set_message(format!("正在下载: {} (使用 {} 线程)", filename, thread_count));
         }
 
-        // 检查是否支持断点续传
-        let supports_range = response
-            .headers()
-            .get(reqwest::header::ACCEPT_RANGES)
-            .and_then(|v| v.to_str().ok())
-            .map(|v| v == "bytes")
-            .unwrap_or(false);
-
-        if !supports_range {
-            pb.println(format!("警告: {} 不支持断点续传，将使用单线程下载", filename));
-        }
-
-        if !supports_range || total_size < 1024 * 1024 { // 小于1MB的文件使用单线程下载
+        if total_size < 1024 * 1024 { // 小于1MB的文件使用单线程下载
             // 使用现有的单线程下载逻辑
             let mut file = tokio::fs::File::create(&output_path)
                 .await
@@ -569,9 +557,6 @@ async fn main() -> Result<()> {
             Ok(())
         }
         Err(e) => {
-            if INTERRUPTED.load(Ordering::SeqCst) {
-                eprintln!("\n下载已中断");
-            }
             Err(e)
         }
     }
